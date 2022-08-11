@@ -17,9 +17,10 @@ console.log("Hello world");
 
 // console.log("Hello world");
 
-refs.searchBox.addEventListener("input", debounce(handleInputChange, DEBOUNCE_DELAY));
+refs.searchBox.addEventListener("input", debounce(handleReceivedData, DEBOUNCE_DELAY));
 
-function handleInputChange(event) {
+
+function handleReceivedData(event) {
     let countrySearch = event.target.value.trim();
   console.log(countrySearch);
   if (countrySearch === "") {
@@ -28,35 +29,39 @@ function handleInputChange(event) {
   }
 
   API.fetchCountrys(countrySearch)
-    .then(renderCoutrysCard)
+    .then(renderСenturies)
     // .catch(error => {
     //   if (error.code === 404) {
     //     onFetchError();
     //   }
     // removeData();
     // });
-  .catch(error => console.log(error))
+    // .catch(onFetchError)
+   .catch(error => console.log(error))
 }
     // renderum kartky krainu
-function renderCoutrysCard(data) {
+function renderСenturies(data) {
   console.log("Danni", data);
 
   if (data.length === 1) {
     const markupCard = data.reduce((acc, item) => (acc += `
-      <div>
-        <img src="${item.flags.svg}" alt="${item.name.official}" width="32px">
+      <div class="country-flags_name">
+        <img src="${item.flags.svg}" alt="${item.name.official}" width="40px" height="30px">
+        <h2 class="country_name">${item.name.official}</h2>
       </div>
-      <div>
-        <h2>${item.name.official}</h2>
-        <p>Capital:${item.capital}</p>
-        <p>Population: ${item.population}</p>
-        <p>Languages: ${Object.values(item.languages)}</p>
+      <div class="country-title">
+        <p>Capital:  ${item.capital}</p>
+        <p>Population:  ${item.population}</p>
+        <p>Languages:  ${Object.values(item.languages)}</p>
       </div>`), "");
       refs.countryList.innerHTML = markupCard;
   } else if(data.length > 1 && data.length <= 10) {
     const markupCountrys = data.reduce((acc, item) => (acc += `
-       <img src="${item.flags.svg}" alt="${item.name.official}" width="32px">
-       <li class="list-group-item">${item.name.official}</li>`), "");
+    <div class="country-flags_name">
+    <img src="${item.flags.svg}" alt="${item.name.official}" width="40px" height="30px">
+       <h2 class="country_name">${item.name.official}</h2>
+    </div>
+       `), "");
 
        refs.countryList.innerHTML = markupCountrys;
   } else if(data.length > 10) {
