@@ -15,7 +15,7 @@ const DEBOUNCE_DELAY = 300;
 
 console.log("Hello world");
 
-// console.log("Hello world");
+console.log("Hello world");
 
 refs.searchBox.addEventListener("input", debounce(handleReceivedData, DEBOUNCE_DELAY));
 
@@ -30,14 +30,19 @@ function handleReceivedData(event) {
 
   API.fetchCountrys(countrySearch)
     .then(renderСenturies)
-    // .catch(error => {
-    //   if (error.code === 404) {
-    //     onFetchError();
-    //   }
-    // removeData();
-    // });
+    .catch(error => {
+      if (error.status === '404') {
+        alert("Catch");
+      }
+      console.log(error);
+    removeData();
+    });
     // .catch(onFetchError)
-   .catch(error => console.log(error))
+  //   .catch(error => {
+  //     console.log("Catch");
+  //     console.log(error);
+  //     alert("uygdsg");
+  //  } )
 }
     // renderum kartky krainu
 function renderСenturies(data) {
